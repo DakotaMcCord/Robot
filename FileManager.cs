@@ -20,7 +20,7 @@ namespace Robot {
             // Create File Dialog and set paramiters
             SaveFileDialog FileDialog = new SaveFileDialog();
 
-            FileDialog.InitialDirectory = ThisPath;
+            FileDialog.InitialDirectory = ThisPath + @"/Saves";
             FileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
             FileDialog.FilterIndex = 1;
             FileDialog.DefaultExt = "txt";
@@ -39,7 +39,7 @@ namespace Robot {
             // Create File Dialog and set paramiters
             OpenFileDialog FileDialog = new OpenFileDialog();
 
-            FileDialog.InitialDirectory = ThisPath;
+            FileDialog.InitialDirectory = ThisPath + @"/Saves";
             FileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
             FileDialog.FilterIndex = 1;
             FileDialog.DefaultExt = "txt";

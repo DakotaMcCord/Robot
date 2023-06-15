@@ -48,10 +48,10 @@ namespace Robot {
             CountDown_TIMER.Interval = 1000; // set GetMousePosition Counttown interval to 1 second.
             CountDown_TIMER.Tick += new EventHandler(GetCoordinatesCountDown); // set countdown trigger to get mouse position
 
-            RegisterHotKey(this.Handle, 1, 0x0000, 0x60); // register the Acivate/Diactivate HotKey to NumPad 0
+            RegisterHotKey(this.Handle, 1, 0x0000, 0x60); // register the Activate/Deactivate HotKey to NumPad 0
         }
         private void Form1_FormClosing(object sender, FormClosingEventArgs e) {
-            // ask User to Confirm Close ot Cancel
+            // ask User to Confirm Close or Cancel
             if (MessageBox.Show("Are you sure you want to quit.\nAny unsaved changes will be lost.", "Warning.", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) != DialogResult.Yes) {
                 e.Cancel = true;
             }
@@ -78,7 +78,7 @@ namespace Robot {
 
             CountDown_LBL.Text = "3"; // reset countdown text to 3
             
-            CountDown_TIMER.Start(); // start timer tick -> will count dow for 3 seconds
+            CountDown_TIMER.Start(); // start timer tick -> will count down for 3 seconds
             GetMousePos_BTN.Enabled = false; // disable Button until reset
         }
         private void GetCoordinatesCountDown(object sender, System.EventArgs e) {
@@ -129,16 +129,16 @@ namespace Robot {
         // Editor TextChanged func.:
         private void MacroEditor_TXTBOX_TextChanged(object sender, EventArgs e) {
             RunMacro_BTN.Enabled = false; // disable Run Button
-            MacroIsRunning = false;
+            MacroIsRunning = false; // set macro to not running
         }
 
         // run and manage macro funcs.
         bool MacroIsRunning = false; // create bool to determine macro is running -> instanciate to false (not running)
         private void RunMacro_BTN_Click(object sender, EventArgs e) {
             Thread MacroThread = new Thread(new ThreadStart(MacroToRun)); // create thread to run macro in
-            MacroThread.SetApartmentState(ApartmentState.STA); // set thread to singe for use with Clipboard
+            MacroThread.SetApartmentState(ApartmentState.STA); // set thread to STA for use with Clipboard
 
-            // Check if macro is running:
+            // Check if macro is running -> toggle run state:
             if (!MacroIsRunning) { // not running
                 MacroIsRunning = !MacroIsRunning; // set to run
                 MacroThread.Start(); // start thread (starts macro)
@@ -148,12 +148,14 @@ namespace Robot {
             }
         }
         protected override void WndProc(ref Message m) {
+            // overrides default windows function -> detecs hotkey press -> continue default windows function
+
             // if hotkey is pressed
             if (m.Msg == 0x0312 && m.WParam.ToInt32() == 1 && RunMacro_BTN.Enabled == true) {
-                RunMacro_BTN_Click(null, null); // mimic run button click
+                RunMacro_BTN_Click(null, null); // mimic run macro button click
             }
 
-            base.WndProc(ref m);
+            base.WndProc(ref m); // continue to do default Windows function
         }
         private void MacroToRun() {
             string[] MacroContents = MacroEditor_TXTBOX.Text.Split($"{Environment.NewLine}"); // load macro for running -> loads in array
@@ -268,7 +270,7 @@ namespace Robot {
             if (MacroEditor_TXTBOX.Text == string.Empty) {
                 MessageBox.Show("Editor is Empty.");
                 return;
-            } // editor is null -> message and return
+            } // editor is null/empty -> message and return
             string Macro = MacroEditor_TXTBOX.Text; // set macro contents to editor contents
             string[] MacroContents = Macro.Split($"{Environment.NewLine}"); // split on newline
 

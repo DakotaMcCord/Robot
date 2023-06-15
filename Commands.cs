@@ -44,7 +44,7 @@ namespace Robot {
             Thread.Sleep(time);
         }
         
-        // use SndKeys API to output keypresses based on string(Key) passed
+        // use SendKeys API to output keypresses based on string(Key) passed
         public static void PressKey(string Key) {
             SendKeys.SendWait(Key);
         }
@@ -77,7 +77,7 @@ namespace Robot {
             mouse_event((int)MouseKeys[Mouse.ToLower()].Y, 0, 0, 0, 0); // key up event
         }
 
-        // recieve and output pouseposition
+        // recieve and output mouseposition
         public static Point GetMousePosition() {
             return Cursor.Position;
         }
